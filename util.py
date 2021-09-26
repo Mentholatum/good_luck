@@ -159,3 +159,37 @@ def init_embedding(embeddings):
     """
     bias = np.sqrt(3.0 / embeddings.size(1))
     torch.nn.init.uniform_(embeddings, -bias, bias)
+
+def load_embeddings(emb_file, word_map):
+    """
+    为指定的词图创建embedding tensor，以加载到模型之中。
+    emb_file: 包含嵌入的文件（以 GloVe 格式存储）
+    word_map: 字图
+    :return: 返回embeddings维度，顺序和字图相同
+    """
+
+    # 计算 embedding 维度
+    with open(emb_file, 'r') as f:
+        emb_dim = len(f.readline().split(' ')) - 1
+
+    vocab = set(word_map.keys())
+
+    # 创造tensor来保存embeddings, 初始化
+    embeddings = torch.FloatTensor(len(vocab), emb_dim)
+    init_embedding(embeddings)
+
+    # 读取嵌入文件
+    print("\nLoading embeddings...")
+    for line in open(emb_file, 'r'):
+        line = line.split(' ')
+
+        emb_word = line[0]
+        embedding = list(map(lambda t: float(t), filter(lambda n: n and not n.isspace(), line[1:])))
+
+        # 忽略不在训练集中的单词
+        if emb_word not in vocab:
+            continue
+
+        embeddings[word_map[emb_word]] = torch.FloatTensor(embedding)
+
+    return embeddings, emb_dim

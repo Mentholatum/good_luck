@@ -193,3 +193,94 @@ def load_embeddings(emb_file, word_map):
         embeddings[word_map[emb_word]] = torch.FloatTensor(embedding)
 
     return embeddings, emb_dim
+def clip_gradient(optimizer, grad_clip):
+    """
+    在反向传播期间负责避免梯度爆炸。
+    optimizer: 可以剪裁梯度的优化器
+    grad_clip: 夹值
+    """
+    for group in optimizer.param_groups:
+        for param in group['params']:
+            if param.grad is not None:
+                param.grad.data.clamp_(-grad_clip, grad_clip)
+
+
+def save_checkpoint(data_name, epoch, epochs_since_improvement, encoder, decoder, encoder_optimizer, decoder_optimizer,
+                    bleu4, is_best):
+    """
+    保存模型的checkpoint.
+    data_name: 已处理数据集的名称
+    epoch: epoch number
+    epochs_since_improvement: 自上次改进 BLEU-4 分数以来的 epoch number
+    encoder: 编码模型
+    decoder: 解码模型
+    encoder_optimizer: 如果需要微调，更新编码器权重的优化器
+    decoder_optimizer: 更新解码器权重的优化器
+    bleu4: 验证该时期的 BLEU-4 分数
+    is_best: 是否是迄今为止最好的checkpoint?
+    """
+    state = {'epoch': epoch,
+             'epochs_since_improvement': epochs_since_improvement,
+             'bleu-4': bleu4,
+             'encoder': encoder,
+             'decoder': decoder,
+             'encoder_optimizer': encoder_optimizer,
+             'decoder_optimizer': decoder_optimizer}
+    filename = 'checkpoint_' + data_name + '.pth.tar'
+    torch.save(state, filename)
+    # 如果这个检查点是目前最好的，则保存
+    if is_best:
+        torch.save(state, 'BEST_' + filename)
+
+
+class AverageMeter(object):
+    """
+    实时更新目标的总和、均值、计数值。
+    Keeps track of most recent, average, sum, and count of a metric.
+    """
+
+    def __init__(self):
+        self.reset()
+
+    def reset(self):
+        self.val = 0
+        self.avg = 0
+        self.sum = 0
+        self.count = 0
+
+    def update(self, val, n=1):
+        self.val = val
+        self.sum += val * n
+        self.count += n
+        self.avg = self.sum / self.count
+
+
+def adjust_learning_rate(optimizer, shrink_factor):
+    """
+    按指定的系数缩小学习率。
+
+    optimizer: 必须缩小学习率的优化器.
+    shrink_factor: 从 (0, 1)中取恰当缩小因子，再乘以学习率
+    """
+
+    print("\nDECAYING learning rate.")
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = param_group['lr'] * shrink_factor
+    print("The new learning rate is %f\n" % (optimizer.param_groups[0]['lr'],))
+
+
+def accuracy(scores, targets, k):
+    """
+    根据预测标签和真实标签计算 top-k 准确度。
+
+    scores: 模型分数
+    targets: 真实分数
+    k: K的前k个的精度
+    返回： top-k的准确率
+    """
+
+    batch_size = targets.size(0)
+    _, ind = scores.topk(k, 1, True, True)
+    correct = ind.eq(targets.view(-1, 1).expand_as(ind))
+    correct_total = correct.view(-1).float().sum()  # 0D tensor
+    return correct_total.item() * (100.0 / batch_size)

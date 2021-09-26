@@ -165,7 +165,7 @@ def load_embeddings(emb_file, word_map):
     为指定的词图创建embedding tensor，以加载到模型之中。
     emb_file: 包含嵌入的文件（以 GloVe 格式存储）
     word_map: 字图
-    :return: 返回embeddings维度，顺序和字图相同
+    return: 返回embeddings维度，顺序和字图相同
     """
 
     # 计算 embedding 维度

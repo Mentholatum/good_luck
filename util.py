@@ -151,3 +151,11 @@ def create_input_files(dataset, karpathy_json_path, image_folder, captions_per_i
 
             with open(os.path.join(output_folder, split + '_CAPLENS_' + base_filename + '.json'), 'w') as j:
                 json.dump(caplens, j)
+def init_embedding(embeddings):
+    """
+    用均值填充embedding tensor.
+
+    embeddings: embedding tensor
+    """
+    bias = np.sqrt(3.0 / embeddings.size(1))
+    torch.nn.init.uniform_(embeddings, -bias, bias)

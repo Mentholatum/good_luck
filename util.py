@@ -22,13 +22,13 @@ def create_input_files(dataset, karpathy_json_path, image_folder, captions_per_i
                        max_len=100):
     """
     为训练、验证和测试数据创建输入文件。
-    dataset: 数据集名称，我们使用 'coco',
-    karpathy_json_path: 带有分类和标题的Karpathy JSON 文件路径
-    image_folder: 包含下载图像的文件夹
-    captions_per_image: 每张图片采样的标题数量
-    min_word_freq: 出现频率低于此阈值的单词被划分到 <unk>s
-    output_folder: 保存文件的文件夹
-    max_len: 最大采样标题长度
+    :param dataset: 数据集名称，我们使用 'coco',
+    :param karpathy_json_path: 带有分类和标题的Karpathy JSON 文件路径
+    :param image_folder: 包含下载图像的文件夹
+    :param captions_per_image: 每张图片采样的标题数量
+    :param min_word_freq: 出现频率低于此阈值的单词被划分到 <unk>s
+    :param output_folder: 保存文件的文件夹
+    :param max_len: 最大采样标题长度
     """
     assert dataset in {'coco'}
 
@@ -155,7 +155,7 @@ def init_embedding(embeddings):
     """
     用均值填充embedding tensor.
 
-    embeddings: embedding tensor
+    :param embeddings: embedding tensor
     """
     bias = np.sqrt(3.0 / embeddings.size(1))
     torch.nn.init.uniform_(embeddings, -bias, bias)
@@ -163,9 +163,9 @@ def init_embedding(embeddings):
 def load_embeddings(emb_file, word_map):
     """
     为指定的词图创建embedding tensor，以加载到模型之中。
-    emb_file: 包含嵌入的文件（以 GloVe 格式存储）
-    word_map: 字图
-    return: 返回embeddings维度，顺序和字图相同
+    :param emb_file: 包含嵌入的文件（以 GloVe 格式存储）
+    :param word_map: 字图
+    :return 返回embeddings维度，顺序和字图相同
     """
 
     # 计算 embedding 维度
@@ -196,8 +196,8 @@ def load_embeddings(emb_file, word_map):
 def clip_gradient(optimizer, grad_clip):
     """
     在反向传播期间负责避免梯度爆炸。
-    optimizer: 可以剪裁梯度的优化器
-    grad_clip: 夹值
+    :param optimizer: 可以剪裁梯度的优化器
+    :param grad_clip: 夹值
     """
     for group in optimizer.param_groups:
         for param in group['params']:
@@ -209,15 +209,15 @@ def save_checkpoint(data_name, epoch, epochs_since_improvement, encoder, decoder
                     bleu4, is_best):
     """
     保存模型的checkpoint.
-    data_name: 已处理数据集的名称
-    epoch: epoch number
-    epochs_since_improvement: 自上次改进 BLEU-4 分数以来的 epoch number
-    encoder: 编码模型
-    decoder: 解码模型
-    encoder_optimizer: 如果需要微调，更新编码器权重的优化器
-    decoder_optimizer: 更新解码器权重的优化器
-    bleu4: 验证该时期的 BLEU-4 分数
-    is_best: 是否是迄今为止最好的checkpoint?
+    :param data_name: 已处理数据集的名称
+    :param epoch: epoch number
+    :param epochs_since_improvement: 自上次改进 BLEU-4 分数以来的 epoch number
+    :param encoder: 编码模型
+    :param decoder: 解码模型
+    :param encoder_optimizer: 如果需要微调，更新编码器权重的优化器
+    :param decoder_optimizer: 更新解码器权重的优化器
+    :param bleu4: 验证该时期的 BLEU-4 分数
+    :param is_best: 是否是迄今为止最好的checkpoint?
     """
     state = {'epoch': epoch,
              'epochs_since_improvement': epochs_since_improvement,
@@ -259,8 +259,8 @@ def adjust_learning_rate(optimizer, shrink_factor):
     """
     按指定的系数缩小学习率。
 
-    optimizer: 必须缩小学习率的优化器.
-    shrink_factor: 从 (0, 1)中取恰当缩小因子，再乘以学习率
+    :param optimizer: 必须缩小学习率的优化器.
+    :param shrink_factor: 从 (0, 1)中取恰当缩小因子，再乘以学习率
     """
 
     print("\nDECAYING learning rate.")
@@ -273,9 +273,9 @@ def accuracy(scores, targets, k):
     """
     根据预测标签和真实标签计算 top-k 准确度。
 
-    scores: 模型分数
-    targets: 真实分数
-    k: K的前k个的精度
+    :param scores: 模型分数
+    :param targets: 真实分数
+    :param k: K的前k个的精度
     返回： top-k的准确率
     """
 

@@ -13,10 +13,10 @@ class CaptionDataset(Dataset):
 
     def __init__(self, data_folder, data_name, split, transform=None):
         """
-        data_folder: folder where data files are stored 存储数据文件的文件夹
-        data_name: base name of processed datasets 已处理数据集的基本名称
-        split: split, one of 'TRAIN', 'VAL', or 'TEST' 对'TRAIN', 'VAL', or 'TEST'进行切片
-        transform: image transform pipeline 图像变换管道
+        :param data_folder: folder where data files are stored 存储数据文件的文件夹
+        :param data_name: base name of processed datasets 已处理数据集的基本名称
+        :param split: split, one of 'TRAIN', 'VAL', or 'TEST' 对'TRAIN', 'VAL', or 'TEST'进行切片
+        :param transform: image transform pipeline 图像变换管道
         """
         self.split = split
         assert self.split in {'TRAIN', 'VAL', 'TEST'}

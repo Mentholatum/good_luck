@@ -2,6 +2,8 @@ import torch
 from torch import nn
 from torchvision.models import resnet
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 class Attention(nn.Module):
     """
     Attention Network. 注意力网络
@@ -64,9 +66,9 @@ class DecoderWithAttention(nn.Module):
 
         self.embedding = nn.Embedding(vocab_size, embed_dim)  # embedding layer
         self.dropout = nn.Dropout(p=self.dropout)
-        self.decode_step = nn.LSTMCell(embed_dim + encoder_dim, decoder_dim, bias=True)  # decoding LSTMCell
-        self.init_h = nn.Linear(encoder_dim, decoder_dim)  # linear layer to find initial hidden state of LSTMCell
-        self.init_c = nn.Linear(encoder_dim, decoder_dim)  # linear layer to find initial cell state of LSTMCell
+        self.decode_step = nn.LSTMCell(embed_dim + encoder_dim, decoder_dim, bias=True)  # decoding LSTM Cell
+        self.init_h = nn.Linear(encoder_dim, decoder_dim)  # linear layer to find initial hidden state of LSTM Cell
+        self.init_c = nn.Linear(encoder_dim, decoder_dim)  # linear layer to find initial cell state of LSTM Cell
         self.f_beta = nn.Linear(decoder_dim, encoder_dim)  # linear layer to create a sigmoid-activated gate
         self.sigmoid = nn.Sigmoid()
         self.fc = nn.Linear(decoder_dim, vocab_size)  # linear layer to find scores over vocabulary
@@ -92,7 +94,7 @@ class DecoderWithAttention(nn.Module):
         """
         Allow fine-tuning of embedding layer? (Only makes sense to not-allow if using pre-trained embeddings).
 
-        :param fine_tune: Allow?
+        :param fine_tune: Whether Allow?
         """
         for p in self.embedding.parameters():
             p.requires_grad = fine_tune
@@ -127,7 +129,7 @@ class DecoderWithAttention(nn.Module):
         encoder_out = encoder_out.view(batch_size, -1, encoder_dim)  # (batch_size, num_pixels, encoder_dim)
         num_pixels = encoder_out.size(1)
 
-        # Sort input data by decreasing lengths; why? apparent below
+        # Sort input data by decreasing lengths; because apparent below
         caption_lengths, sort_ind = caption_lengths.squeeze(1).sort(dim=0, descending=True)
         encoder_out = encoder_out[sort_ind]
         encoded_captions = encoded_captions[sort_ind]

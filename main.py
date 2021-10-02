@@ -1,7 +1,8 @@
 import argparse
 import json
 import os
-import util
+import Model
+from Model import util
 import torch
 import torch.nn.functional as F
 import numpy as np
@@ -11,7 +12,6 @@ import matplotlib.cm as cm
 import skimage.transform
 from cv2 import imread, resize
 from PIL import Image
-
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -195,6 +195,10 @@ def arg_parse():
     parser.add_argument('--checkpoint', default='checkpoint',type = str)
     parser.add_argument('--device', default='cuda', type=str, help='cuda or cpu')
     parser.add_argument('--cudaID', default='0', type=str, help='gpu device id')
+
+    parser.add_argument('--img', default='/home3/jiachuang/course/nlp/data/train2017/', help='path to image')
+    parser.add_argument('--model', help='path to model')
+    parser.add_argument('--word_map', default='/home3/jiachuang/course/nlp/data/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json', help='path to word map JSON')
     parser.add_argument('--beam_size', '-b', default=5, type=int, help='beam size for beam search')
     parser.add_argument('--dont_smooth', dest='smooth', action='store_false', help='do not smooth alpha overlay')
 
@@ -207,12 +211,12 @@ if __name__ == '__main__':
     util.fix_all_seed(seed)
 
     # Load model
-    checkpoint = torch.load(args.model, map_location=str(device))
+    checkpoint = torch.load(args.model, map_location=str(torch.device("cuda" if torch.cuda.is_available() else "cpu")))
     decoder = checkpoint['decoder']
-    decoder = decoder.to(device)
+    decoder = decoder.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
     decoder.eval()
     encoder = checkpoint['encoder']
-    encoder = encoder.to(device)
+    encoder = encoder.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
     encoder.eval()
 
     # Load word map (word2ix)

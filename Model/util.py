@@ -56,8 +56,7 @@ def create_input_files(dataset, karpathy_json_path, image_folder, captions_per_i
         if len(captions) == 0:
             continue
 
-        path = os.path.join(image_folder, img['filepath'], img['filename']) if dataset == 'coco' else os.path.join(
-            image_folder, img['filename'])
+        path = os.path.join(image_folder, img['filepath'], img['filename'])
 
         if img['split'] in {'train', 'restval'}:
             train_image_paths.append(path)
@@ -270,9 +269,9 @@ def adjust_learning_rate(optimizer, shrink_factor):
 
 
 def accuracy(scores, targets, k):
+
     """
     根据预测标签和真实标签计算 top-k 准确度。
-
     :param scores: 模型分数
     :param targets: 真实分数
     :param k: K的前k个的精度

@@ -8,7 +8,6 @@ import os
 class CaptionDataset(Dataset):
     """
     A PyTorch Dataset class to be used in a PyTorch DataLoader to create batches.
-    此类用于 PyTorch DataLoader 中创建批处理
     """
 
     def __init__(self, data_folder, data_name, split, transform=None):
@@ -29,11 +28,11 @@ class CaptionDataset(Dataset):
         self.cpi = self.h.attrs['captions_per_image']
 
         # Load encoded captions (completely into memory) 加载编码标题
-        with open(os.path.join(data_folder, self.split + '_CAPTIONS_' + data_name + '.json'), 'r') as j:
+        with open(os.path.join(data_folder, self.split + '_captions_' + data_name + '.json'), 'r') as j:
             self.captions = json.load(j)
 
         # Load caption lengths (completely into memory) 加载标题长度
-        with open(os.path.join(data_folder, self.split + '_CAPLENS_' + data_name + '.json'), 'r') as j:
+        with open(os.path.join(data_folder, self.split + '_caplens_' + data_name + '.json'), 'r') as j:
             self.caplens = json.load(j)
 
         #PyTorch transformation pipeline for the image (normalizing, etc.)图像的 PyTorch 转换管道（标准化等）
@@ -54,7 +53,7 @@ class CaptionDataset(Dataset):
 
         caplen = torch.LongTensor([self.caplens[i]])
 
-        if self.split is 'TRAIN':
+        if self.split == 'TRAIN':
             return img, caption, caplen
         else:
             # For validation of testing, also return all 'captions_per_image' captions to find BLEU-4 score

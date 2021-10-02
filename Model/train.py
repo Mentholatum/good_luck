@@ -3,17 +3,16 @@ import torch.backends.cudnn as cudnn
 import torch.optim
 import torch.utils.data
 import torchvision.transforms as transforms
-from torch import nn
 from torch.nn.utils.rnn import pack_padded_sequence
 
 import Model
 from decoder import *
 from dataset import *
-from util import *
+from Model.util import *
 from nltk.translate.bleu_score import corpus_bleu
 
 # Data parameters
-data_folder = '/home3/jiachuang/course/nlp/data/caption data/'  # folder with data files saved by create_input_files.py
+data_folder = '/home3/jiachuang/course/nlp/data/caption_data/'  # folder with data files saved by create_input_files.py
 data_name = 'coco_5_cap_per_img_5_min_word_freq'  # base name shared by data files
 
 # Model parameters

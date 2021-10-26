@@ -165,3 +165,5 @@ class DecoderWithAttention(nn.Module):
             alphas[:batch_size_t, t, :] = alpha
 
         return predictions, encoded_captions, decode_lengths, alphas, sort_ind
+
+torch.save(DecoderWithAttention,"/home3/jiachuang/course/nlp/projects/good_luck/checkpoint/decoder.pth")

@@ -63,3 +63,4 @@ class encoder(nn.Module):
             for p in c.parameters():
                 p.requires_grad = fine_tune
 
+torch.save(encoder,"/home3/jiachuang/course/nlp/projects/good_luck/checkpoint/encoder.pth")

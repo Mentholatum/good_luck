@@ -197,7 +197,8 @@ def arg_parse():
     parser.add_argument('--cudaID', default='0', type=str, help='gpu device id')
 
     parser.add_argument('--img', default='/home3/jiachuang/course/nlp/data/train2017/', help='path to image')
-    parser.add_argument('--model', help='path to model')
+    parser.add_argument('--model1', default='checkpoint/encoder.pth',help='path to model')
+    parser.add_argument('--model2', default='checkpoint/decoder.pth', help='path to model')
     parser.add_argument('--word_map', default='/home3/jiachuang/course/nlp/data/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json', help='path to word map JSON')
     parser.add_argument('--beam_size', '-b', default=5, type=int, help='beam size for beam search')
     parser.add_argument('--dont_smooth', dest='smooth', action='store_false', help='do not smooth alpha overlay')
@@ -211,11 +212,14 @@ if __name__ == '__main__':
     util.fix_all_seed(seed)
 
     # Load model
-    checkpoint = torch.load(args.model, map_location=str(torch.device("cuda" if torch.cuda.is_available() else "cpu")))
-    decoder = checkpoint['decoder']
+    checkpoint1 = torch.load(args.model1, map_location=str(torch.device("cuda" if torch.cuda.is_available() else "cpu")))
+    checkpoint2 = torch.load(args.model2,map_location=str(torch.device("cuda" if torch.cuda.is_available() else "cpu")))
+
+    #checkpoint = torch.as_tensor(args.model)
+    decoder = checkpoint1
     decoder = decoder.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
     decoder.eval()
-    encoder = checkpoint['encoder']
+    encoder = checkpoint2
     encoder = encoder.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
     encoder.eval()
 

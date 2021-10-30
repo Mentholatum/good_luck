@@ -26,7 +26,7 @@
 
 ### Model
 
-Encoder: Resnet101 (Contrastive learning)
+Encoder: Resnet50 (Contrastive learning)
 
 Decoder: LSTM or Transformer
 

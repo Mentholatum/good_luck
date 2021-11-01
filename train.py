@@ -265,8 +265,8 @@ def validate(val_loader, encoder, decoder, criterion):
             # Remove timesteps that we didn't decode at, or are pads
             # pack_padded_sequence is an easy trick to do this
             scores_copy = scores.clone()
-            scores, _ = pack_padded_sequence(scores, decode_lengths, batch_first=True)
-            targets, _ = pack_padded_sequence(targets, decode_lengths, batch_first=True)
+            scores= pack_padded_sequence(scores, decode_lengths, batch_first=True).data
+            targets = pack_padded_sequence(targets, decode_lengths, batch_first=True).data
 
             # Calculate loss
             loss = criterion(scores, targets)

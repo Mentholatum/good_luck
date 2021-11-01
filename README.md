@@ -10,6 +10,8 @@
 
 >[Flickr30K](https://cs.stanford.edu/people/karpathy/deepimagesent/flickr30k.zip)
 
+>[Karpathy splits for Image Captioning](https://www.kaggle.com/shtvkumar/karpathy-splits)
+
 ### Existing Papers and Repos
 
 >Show, Attend and Tell: Neural Image Caption Generation with Visual Attention ([code](https://github.com/DeepRNN/image_captioning)), ([paper](http://proceedings.mlr.press/v37/xuc15.pdf)), ([blog](https://zhuanlan.zhihu.com/p/137825062))

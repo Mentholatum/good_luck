@@ -1,25 +1,21 @@
-import argparse
-import json
-import os
-import Model
-from Model import util
 import torch
 import torch.nn.functional as F
 import numpy as np
+import json
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import skimage.transform
-from cv2 import imread, resize
+import argparse
+from imageio import imread
 from PIL import Image
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=3):
     """
     Reads an image and captions it with beam search.
-
     :param encoder: encoder model
     :param decoder: decoder model
     :param image_path: path to image
@@ -36,7 +32,7 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
     if len(img.shape) == 2:
         img = img[:, :, np.newaxis]
         img = np.concatenate([img, img, img], axis=2)
-    img = resize(img, (256, 256))
+    img = np.array(Image.fromarray(img).resize((256, 256)))
     img = img.transpose(2, 0, 1)
     img = img / 255.
     img = torch.FloatTensor(img).to(device)
@@ -153,9 +149,7 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
 def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
     """
     Visualizes caption with weights at every word.
-
     Adapted from paper authors' repo: https://github.com/kelvinxu/arctic-captions/blob/master/alpha_visualization.ipynb
-
     :param image_path: path to image that has been captioned
     :param seq: caption
     :param alphas: weights
@@ -187,40 +181,25 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
         plt.axis('off')
     plt.show()
 
-def arg_parse():
-    parser = argparse.ArgumentParser(description='Image Captioning')
-    parser.add_argument('--state_dict', default='checkpoint/resnet18-5c106cde.pth', type=str)
-    parser.add_argument('--outpath', default='output/', type=str)
-    parser.add_argument('--seed', type=int, default=72, help='Random seed.')
-    parser.add_argument('--checkpoint', default='checkpoint',type = str)
-    parser.add_argument('--device', default='cuda', type=str, help='cuda or cpu')
-    parser.add_argument('--cudaID', default='0', type=str, help='gpu device id')
 
-    parser.add_argument('--img', default='/home3/jiachuang/course/nlp/data/train2017/', help='path to image')
-    parser.add_argument('--model1', default='checkpoint/encoder.pth',help='path to model')
-    parser.add_argument('--model2', default='checkpoint/decoder.pth', help='path to model')
-    parser.add_argument('--word_map', default='/home3/jiachuang/course/nlp/data/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json', help='path to word map JSON')
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='NLP course - Image Caption Generator')
+
+    parser.add_argument('--img', '-i', help='path to image')
+    parser.add_argument('--model', '-m', help='path to model')
+    parser.add_argument('--word_map', '-wm', help='path to word map JSON')
     parser.add_argument('--beam_size', '-b', default=5, type=int, help='beam size for beam search')
     parser.add_argument('--dont_smooth', dest='smooth', action='store_false', help='do not smooth alpha overlay')
 
-    return parser.parse_args()
-
-if __name__ == '__main__':
-    args = arg_parse()
-    os.environ["CUDA_VISIBLE_DEVICES"] = args.cudaID
-    seed = args.seed
-    util.fix_all_seed(seed)
+    args = parser.parse_args()
 
     # Load model
-    checkpoint1 = torch.load(args.model1, map_location=str(torch.device("cuda" if torch.cuda.is_available() else "cpu")))
-    checkpoint2 = torch.load(args.model2,map_location=str(torch.device("cuda" if torch.cuda.is_available() else "cpu")))
-
-    #checkpoint = torch.as_tensor(args.model)
-    decoder = checkpoint1
-    decoder = decoder.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+    checkpoint = torch.load(args.model, map_location=str(device))
+    decoder = checkpoint['decoder']
+    decoder = decoder.to(device)
     decoder.eval()
-    encoder = checkpoint2
-    encoder = encoder.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+    encoder = checkpoint['encoder']
+    encoder = encoder.to(device)
     encoder.eval()
 
     # Load word map (word2ix)

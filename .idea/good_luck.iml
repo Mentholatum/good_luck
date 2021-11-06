@@ -5,9 +5,4 @@
     <orderEntry type="jdk" jdkName="Remote Python 3.8.8 (sftp://jiachuang@210.76.197.20:12125/home3/jiachuang/anaconda3/envs/pytorch/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
-  <component name="PyDocumentationSettings">
-    <option name="format" value="PLAIN" />
-    <option name="myDocStringFormat" value="Plain" />
-    <option name="renderExternalDocumentation" value="true" />
-  </component>
 </module>

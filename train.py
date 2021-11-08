@@ -34,8 +34,8 @@ grad_clip = 5.  # clip gradients at an absolute value of
 alpha_c = 1.  # regularization parameter for 'doubly stochastic attention', as in the paper
 best_bleu4 = 0.  # BLEU-4 score right now
 print_freq = 100  # print training/validation stats every __ batches
-fine_tune_encoder = False  # fine-tune encoder?
-checkpoint = None  # path to checkpoint, None if none
+fine_tune_encoder = True  # fine-tune encoder?
+checkpoint = "checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar"  # path to checkpoint, None if none
 
 
 def main():
@@ -244,7 +244,6 @@ def validate(val_loader, encoder, decoder, criterion):
     hypotheses = list()  # hypotheses (predictions)
 
     # explicitly disable gradient calculation to avoid CUDA memory error
-    # solves the issue #57
     with torch.no_grad():
         # Batches
         for i, (imgs, caps, caplens, allcaps) in enumerate(val_loader):
@@ -265,7 +264,7 @@ def validate(val_loader, encoder, decoder, criterion):
             # Remove timesteps that we didn't decode at, or are pads
             # pack_padded_sequence is an easy trick to do this
             scores_copy = scores.clone()
-            scores= pack_padded_sequence(scores, decode_lengths, batch_first=True).data
+            scores = pack_padded_sequence(scores, decode_lengths, batch_first=True).data
             targets = pack_padded_sequence(targets, decode_lengths, batch_first=True).data
 
             # Calculate loss
@@ -327,3 +326,26 @@ def validate(val_loader, encoder, decoder, criterion):
 
 if __name__ == '__main__':
     main()
+    '''word_map_file = os.path.join(data_folder, 'WORDMAP_' + data_name + '.json')
+    with open(word_map_file, 'r') as j:
+        word_map = json.load(j)
+    checkpoint = torch.load(checkpoint)
+    start_epoch = checkpoint['epoch'] + 1
+    epochs_since_improvement = checkpoint['epochs_since_improvement']
+    best_bleu4 = checkpoint['bleu-4']
+    decoder = checkpoint['decoder']
+    decoder_optimizer = checkpoint['decoder_optimizer']
+    encoder = checkpoint['encoder']
+    encoder_optimizer = checkpoint['encoder_optimizer']
+    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                     std=[0.229, 0.224, 0.225])
+    val_loader = torch.utils.data.DataLoader(
+        CaptionDataset(data_folder, data_name, 'VAL', transform=transforms.Compose([normalize])),
+        batch_size=batch_size, shuffle=True, num_workers=workers, pin_memory=True)
+    decoder = decoder.to(device)
+    encoder = encoder.to(device)
+    criterion = nn.CrossEntropyLoss().to(device)
+    recent_bleu4 = validate(val_loader=val_loader,
+                            encoder=encoder,
+                            decoder=decoder,
+                            criterion=criterion)'''

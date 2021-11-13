@@ -170,11 +170,11 @@ def evaluate(beam_size):
     weight2 = (1.0 / 2.0, 1.0 / 2.0,)
     weight3 = (1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0,)
     weight5 = (1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0,)
-    bleu1 = corpus_bleu(references, hypotheses,weight1)
-    bleu2 = corpus_bleu(references, hypotheses, weight2)
-    bleu3 = corpus_bleu(references, hypotheses, weight3)
-    bleu4 = corpus_bleu(references, hypotheses)
-    bleu5 = corpus_bleu(references, hypotheses, weight5)
+    bleu1 = 100 * corpus_bleu(references, hypotheses,weight1)
+    bleu2 = 100 * corpus_bleu(references, hypotheses, weight2)
+    bleu3 = 100 * corpus_bleu(references, hypotheses, weight3)
+    bleu4 = 100 * corpus_bleu(references, hypotheses)
+    bleu5 = 100 * corpus_bleu(references, hypotheses, weight5)
 
     return bleu1,bleu2,bleu3,bleu4,bleu5
 

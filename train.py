@@ -35,7 +35,7 @@ alpha_c = 1.  # regularization parameter for 'doubly stochastic attention', as i
 best_bleu4 = 0.  # BLEU-4 score right now
 print_freq = 100  # print training/validation stats every __ batches
 fine_tune_encoder = True  # fine-tune encoder?
-checkpoint = "checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar"  # path to checkpoint, None if none
+checkpoint = None # path to checkpoint, None if none
 
 
 def main():
@@ -313,7 +313,7 @@ def validate(val_loader, encoder, decoder, criterion):
             assert len(references) == len(hypotheses)
 
         # Calculate BLEU-4 scores
-        bleu4 = corpus_bleu(references, hypotheses)
+        bleu4 = 100 * corpus_bleu(references, hypotheses)
 
         print(
             '\n * LOSS - {loss.avg:.3f}, TOP-5 ACCURACY - {top5.avg:.3f}, BLEU-4 - {bleu}\n'.format(
@@ -326,26 +326,3 @@ def validate(val_loader, encoder, decoder, criterion):
 
 if __name__ == '__main__':
     main()
-    '''word_map_file = os.path.join(data_folder, 'WORDMAP_' + data_name + '.json')
-    with open(word_map_file, 'r') as j:
-        word_map = json.load(j)
-    checkpoint = torch.load(checkpoint)
-    start_epoch = checkpoint['epoch'] + 1
-    epochs_since_improvement = checkpoint['epochs_since_improvement']
-    best_bleu4 = checkpoint['bleu-4']
-    decoder = checkpoint['decoder']
-    decoder_optimizer = checkpoint['decoder_optimizer']
-    encoder = checkpoint['encoder']
-    encoder_optimizer = checkpoint['encoder_optimizer']
-    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                     std=[0.229, 0.224, 0.225])
-    val_loader = torch.utils.data.DataLoader(
-        CaptionDataset(data_folder, data_name, 'VAL', transform=transforms.Compose([normalize])),
-        batch_size=batch_size, shuffle=True, num_workers=workers, pin_memory=True)
-    decoder = decoder.to(device)
-    encoder = encoder.to(device)
-    criterion = nn.CrossEntropyLoss().to(device)
-    recent_bleu4 = validate(val_loader=val_loader,
-                            encoder=encoder,
-                            decoder=decoder,
-                            criterion=criterion)'''

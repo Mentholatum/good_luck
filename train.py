@@ -34,8 +34,8 @@ grad_clip = 5.  # clip gradients at an absolute value of
 alpha_c = 1.  # regularization parameter for 'doubly stochastic attention', as in the paper
 best_bleu4 = 0.  # BLEU-4 score right now
 print_freq = 100  # print training/validation stats every __ batches
-fine_tune_encoder = False  # fine-tune encoder?
-checkpoint = None  # path to checkpoint, None if none
+fine_tune_encoder = True  # fine-tune encoder?
+checkpoint = None # path to checkpoint, None if none
 
 
 def main():
@@ -244,7 +244,6 @@ def validate(val_loader, encoder, decoder, criterion):
     hypotheses = list()  # hypotheses (predictions)
 
     # explicitly disable gradient calculation to avoid CUDA memory error
-    # solves the issue #57
     with torch.no_grad():
         # Batches
         for i, (imgs, caps, caplens, allcaps) in enumerate(val_loader):
@@ -265,7 +264,7 @@ def validate(val_loader, encoder, decoder, criterion):
             # Remove timesteps that we didn't decode at, or are pads
             # pack_padded_sequence is an easy trick to do this
             scores_copy = scores.clone()
-            scores= pack_padded_sequence(scores, decode_lengths, batch_first=True).data
+            scores = pack_padded_sequence(scores, decode_lengths, batch_first=True).data
             targets = pack_padded_sequence(targets, decode_lengths, batch_first=True).data
 
             # Calculate loss
@@ -314,7 +313,7 @@ def validate(val_loader, encoder, decoder, criterion):
             assert len(references) == len(hypotheses)
 
         # Calculate BLEU-4 scores
-        bleu4 = corpus_bleu(references, hypotheses)
+        bleu4 = 100 * corpus_bleu(references, hypotheses)
 
         print(
             '\n * LOSS - {loss.avg:.3f}, TOP-5 ACCURACY - {top5.avg:.3f}, BLEU-4 - {bleu}\n'.format(

@@ -97,8 +97,8 @@ def evaluate(beam_size):
         while True:
 
             embeddings = decoder.embedding(k_prev_words).squeeze(1)  # (s, embed_dim)
-            awe, others = decoder.attention(encoder_out, h) # (s, encoder_dim), (s, num_pixels)
-            gate = decoder.sigmoid(decoder.f_beta(h))# gating scalar, (s, encoder_dim)
+            awe, others = decoder.attention(encoder_out, h)   # (s, encoder_dim), (s, num_pixels)
+            gate = decoder.sigmoid(decoder.f_beta(h))   # gating scalar, (s, encoder_dim)
 
             awe = gate * awe
 
@@ -165,12 +165,20 @@ def evaluate(beam_size):
 
         assert len(references) == len(hypotheses)
 
-    # Calculate BLEU-4 scores
-    bleu4 = corpus_bleu(references, hypotheses)
+    # Calculate BLEU scores
+    weight1 = (1.0/1.0,)
+    weight2 = (1.0 / 2.0, 1.0 / 2.0,)
+    weight3 = (1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0,)
+    weight5 = (1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0,)
+    bleu1 = 100 * corpus_bleu(references, hypotheses,weight1)
+    bleu2 = 100 * corpus_bleu(references, hypotheses, weight2)
+    bleu3 = 100 * corpus_bleu(references, hypotheses, weight3)
+    bleu4 = 100 * corpus_bleu(references, hypotheses)
+    bleu5 = 100 * corpus_bleu(references, hypotheses, weight5)
 
-    return bleu4
+    return bleu1,bleu2,bleu3,bleu4,bleu5
 
 
 if __name__ == '__main__':
     beam_size = 1
-    print("\nBLEU-4 score @ beam size of %d is %.4f." % (beam_size, evaluate(beam_size)))
+    print("\nBLEU score at beam size of "+ str(beam_size) + " is " + str(evaluate(beam_size))+".")

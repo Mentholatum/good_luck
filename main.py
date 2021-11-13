@@ -185,7 +185,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='NLP course - Image Caption Generator')
 
-    parser.add_argument('--img', '-i', default='/home3/jiachuang/course/nlp/data/test2017/000000485208.jpg',help='path to image')
+    parser.add_argument('--img', '-i', default='/home3/jiachuang/course/nlp/data/test2017/000000485206.jpg',help='path to image')
     parser.add_argument('--model', '-m', default='BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar',help='path to model')
     parser.add_argument('--word_map', '-wm', default='/home3/jiachuang/course/nlp/data/caption_data'
                                                      '/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json',

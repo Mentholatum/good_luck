@@ -156,6 +156,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
     :param rev_word_map: reverse word mapping, i.e. ix2word
     :param smooth: smooth weights?
     """
+
     image = Image.open(image_path)
     image = image.resize([14 * 24, 14 * 24], Image.LANCZOS)
 
@@ -164,7 +165,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
     for t in range(len(words)):
         if t > 50:
             break
-        plt.subplot(np.ceil(len(words) / 5.), 5, t + 1)
+        plt.subplot(int(np.ceil(len(words) / 5.)), 5, t + 1)
 
         plt.text(0, 1, '%s' % (words[t]), color='black', backgroundcolor='white', fontsize=12)
         plt.imshow(image)
@@ -180,6 +181,13 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
         plt.set_cmap(cm.Greys_r)
         plt.axis('off')
     plt.show()
+    #生成的描述语言
+    description = ""
+    for t in range(len(words) - 2):
+        if t > 48:
+            break
+        description =(description + words[t + 1] + " ")
+    print("Description :",description)
 
 
 if __name__ == '__main__':

@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34734f0e-249f-42aa-84a9-f685c5b2c12e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +39,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
@@ -167,8 +170,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.eval" />
         <item itemvalue="Python.train" />
+        <item itemvalue="Python.eval" />
         <item itemvalue="Python.create_input_files" />
         <item itemvalue="Python.dataset" />
       </list>
@@ -193,7 +196,13 @@
       <workItem from="1636282794729" duration="12245000" />
       <workItem from="1636359037304" duration="4915000" />
       <workItem from="1636533250544" duration="4678000" />
-      <workItem from="1636791201991" duration="1785000" />
+      <workItem from="1636791201991" duration="7658000" />
+      <workItem from="1636814762936" duration="755000" />
+      <workItem from="1636863350583" duration="1653000" />
+      <workItem from="1637138258830" duration="2667000" />
+      <workItem from="1637925065091" duration="2683000" />
+      <workItem from="1638010760876" duration="27000" />
+      <workItem from="1638188945964" duration="2300000" />
     </task>
     <servers />
   </component>
@@ -231,7 +240,7 @@
     <SUITE FILE_PATH="coverage/good_luck$dataset.coverage" NAME="dataset Coverage Results" MODIFIED="1635751867206" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/good_luck$create_input_files.coverage" NAME="create_input_files Coverage Results" MODIFIED="1635754925232" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/good_luck$eval.coverage" NAME="eval Coverage Results" MODIFIED="1636540680489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/good_luck$main.coverage" NAME="main Coverage Results" MODIFIED="1636792700169" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/good_luck$train.coverage" NAME="train Coverage Results" MODIFIED="1636534017523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/good_luck$main.coverage" NAME="main Coverage Results" MODIFIED="1638192794785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/good_luck$train.coverage" NAME="train Coverage Results" MODIFIED="1636798150896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

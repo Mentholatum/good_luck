@@ -181,4 +181,7 @@ def evaluate(beam_size):
 
 if __name__ == '__main__':
     beam_size = 5
-    print("\nBLEU-1~4 score at beam size of "+ str(beam_size) + " is " + str(evaluate(beam_size))+".")
+    print("\nBLEU-1 score at beam size of "+ str(beam_size) + " is " + str(evaluate(beam_size)[0])+".")
+    print("\nBLEU-2 score at beam size of " + str(beam_size) + " is " + str(evaluate(beam_size)[1]) + ".")
+    print("\nBLEU-3 score at beam size of " + str(beam_size) + " is " + str(evaluate(beam_size)[2]) + ".")
+    print("\nBLEU-4 score at beam size of " + str(beam_size) + " is " + str(evaluate(beam_size)[3]) + ".")

@@ -169,16 +169,16 @@ def evaluate(beam_size):
     weight1 = (1.0/1.0,)
     weight2 = (1.0 / 2.0, 1.0 / 2.0,)
     weight3 = (1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0,)
-    weight5 = (1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0,)
+    #weight5 = (1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0, 1.0 / 5.0,)
     bleu1 = 100 * corpus_bleu(references, hypotheses,weight1)
     bleu2 = 100 * corpus_bleu(references, hypotheses, weight2)
     bleu3 = 100 * corpus_bleu(references, hypotheses, weight3)
     bleu4 = 100 * corpus_bleu(references, hypotheses)
-    bleu5 = 100 * corpus_bleu(references, hypotheses, weight5)
+    #bleu5 = 100 * corpus_bleu(references, hypotheses, weight5)
 
-    return bleu1,bleu2,bleu3,bleu4,bleu5
+    return bleu1,bleu2,bleu3,bleu4#,bleu5
 
 
 if __name__ == '__main__':
-    beam_size = 1
-    print("\nBLEU score at beam size of "+ str(beam_size) + " is " + str(evaluate(beam_size))+".")
+    beam_size = 5
+    print("\nBLEU-1~4 score at beam size of "+ str(beam_size) + " is " + str(evaluate(beam_size))+".")

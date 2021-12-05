@@ -185,18 +185,18 @@ if __name__ == '__main__':
     print("\nBLEU-1 score at beam size of "+ str(beam_size) + " is " + str(scores[0])+".")
     print("\nBLEU-2 score at beam size of " + str(beam_size) + " is " + str(scores[1]) + ".")
     print("\nBLEU-3 score at beam size of " + str(beam_size) + " is " + str(scores[2]) + ".")
-    print("\nBLEU-4 score at beam size of " + str(beam_size) + " is " + str(scores[3]) + ".")
+    print("\nBLEU-4 score at beam size of " + str(beam_size) + " is " + str(scores[3]) + ".\n")
 
     beam_size = 3
     scores = evaluate(beam_size)
     print("\nBLEU-1 score at beam size of " + str(beam_size) + " is " + str(scores[0]) + ".")
     print("\nBLEU-2 score at beam size of " + str(beam_size) + " is " + str(scores[1]) + ".")
     print("\nBLEU-3 score at beam size of " + str(beam_size) + " is " + str(scores[2]) + ".")
-    print("\nBLEU-4 score at beam size of " + str(beam_size) + " is " + str(scores[3]) + ".")
+    print("\nBLEU-4 score at beam size of " + str(beam_size) + " is " + str(scores[3]) + ".\n")
 
     beam_size = 5
     scores = evaluate(beam_size)
     print("\nBLEU-1 score at beam size of " + str(beam_size) + " is " + str(scores[0]) + ".")
     print("\nBLEU-2 score at beam size of " + str(beam_size) + " is " + str(scores[1]) + ".")
     print("\nBLEU-3 score at beam size of " + str(beam_size) + " is " + str(scores[2]) + ".")
-    print("\nBLEU-4 score at beam size of " + str(beam_size) + " is " + str(scores[3]) + ".")
+    print("\nBLEU-4 score at beam size of " + str(beam_size) + " is " + str(scores[3]) + ".\n")

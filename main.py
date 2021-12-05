@@ -188,6 +188,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
             break
         description =(description + words[t + 1] + " ")
     print("Generated description:",description)
+    return description
 
 
 if __name__ == '__main__':

@@ -13,7 +13,7 @@ from PIL import Image
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=3):
+def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=5):
     """
     Reads an image and captions it with beam search.
     :param encoder: encoder model
@@ -154,7 +154,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
     :param seq: caption
     :param alphas: weights
     :param rev_word_map: reverse word mapping, i.e. ix2word
-    :param smooth: smooth weights?
+    :param smooth: smooth weights, aviod case like 0/0
     """
 
     image = Image.open(image_path)

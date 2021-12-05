@@ -1,16 +1,9 @@
 from main import caption_image_beam_search
 from main import visualize_att
 import torch
-import torch.nn.functional as F
-import numpy as np
 import json
-import torchvision.transforms as transforms
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import skimage.transform
 import argparse
-from imageio import imread
-from PIL import Image
+
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

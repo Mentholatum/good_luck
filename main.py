@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import skimage.transform
 import argparse
-from imageio import imread
 from PIL import Image
+import cv2 as cv
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -28,7 +28,11 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
     vocab_size = len(word_map)
 
     # Read image and process
-    img = imread(image_path)
+
+    img = cv.imread(image_path,cv.IMREAD_COLOR)
+    #img = img.convert('RGB')
+
+    # img = Image.open(image_path).convert('RGB')
     if len(img.shape) == 2:
         img = img[:, :, np.newaxis]
         img = np.concatenate([img, img, img], axis=2)
@@ -157,6 +161,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
     :param smooth: smooth weights, aviod case like 0/0
     """
 
+    #image = cv.imread(image_path,cv.IMREAD_COLOR)
     image = Image.open(image_path)
     image = image.resize([14 * 24, 14 * 24], Image.LANCZOS)
 
@@ -187,14 +192,14 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
         if t > 48:
             break
         description =(description + words[t + 1] + " ")
-    print("Generated description:",description+ ".")
+    print("Generated description:",description)
     return description
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='NLP course - Image Caption Generator')
 
-    parser.add_argument('--img', '-i', default='/home3/jiachuang/course/nlp/data/test2017/000000485206.jpg',help='path to image')
+    parser.add_argument('--img', '-i', default='/home3/jiachuang/course/nlp/projects/good_luck/upload_files/20211210142029.png',help='path to image')
     parser.add_argument('--model', '-m', default='BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar',help='path to model')
     parser.add_argument('--word_map', '-wm', default='/home3/jiachuang/course/nlp/data/caption_data'
                                                      '/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json',

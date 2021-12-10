@@ -9,20 +9,18 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 
-def caption(img='/home3/jiachuang/course/nlp/data/test2017/000000485206.jpg'):
+def caption(img='/home3/jiachuang/course/nlp/projects/good_luck/upload_files/20211210142029.png'):
     """
     function to generate imgage description
     :param img: path to image
     :return: description
     """
 
-    parser = argparse.ArgumentParser(description='NLP course - Image Caption Generator')
-    #parser.add_argument('--img', '-i', default='/home3/jiachuang/course/nlp/data/test2017/000000485206.jpg',help='path to image')
+    parser = argparse.ArgumentParser(description='NLP course - Image Caption Generator - Good luck')
     parser.add_argument('--model', '-m', default='BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar',help='path to model')
     parser.add_argument('--word_map', '-wm', default='/home3/jiachuang/course/nlp/data/caption_data'
                                                      '/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json',
                         help='path to word map JSON')
-    #parser.add_argument('--beam_size', '-b', default=5, type=int, help='beam size for beam search')
     parser.add_argument('--dont_smooth', dest='smooth', action='store_false', help='do not smooth alpha overlay')
     args = parser.parse_args()
 
@@ -46,7 +44,7 @@ def caption(img='/home3/jiachuang/course/nlp/data/test2017/000000485206.jpg'):
     alphas = torch.FloatTensor(alphas)
 
     # Visualize caption and attention of best sequence
-    visualize_att(img, seq, alphas, rev_word_map, args.smooth)
-
+    des = visualize_att(img, seq, alphas, rev_word_map, args.smooth)
+    return des
 if __name__ == '__main__':
     caption()

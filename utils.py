@@ -8,6 +8,7 @@ from PIL import Image
 from tqdm import tqdm
 from collections import Counter
 from random import seed, choice, sample
+import cv2 as cv
 
 
 def create_input_files(dataset, karpathy_json_path, image_folder, captions_per_image, min_word_freq, output_folder,
@@ -278,3 +279,5 @@ def accuracy(scores, targets, k):
     correct = ind.eq(targets.view(-1, 1).expand_as(ind))
     correct_total = correct.view(-1).float().sum()  # 0D tensor
     return correct_total.item() * (100.0 / batch_size)
+
+
